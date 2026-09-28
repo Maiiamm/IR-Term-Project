@@ -1,7 +1,7 @@
-import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useMemo, useState } from "react";
+import { searchRecipes } from "../../../server/recipeSearch";
 import {
   ArrowRight,
   Bookmark,
@@ -34,9 +34,9 @@ export default function Home() {
   const [savedIds, setSavedIds] = useState<string[]>([]);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
-  const searchInput = useMemo(() => ({ query: committedQuery, pantry: committedPantry, filters }), [committedQuery, committedPantry, filters]);
-  const { data, isFetching } = trpc.recipes.search.useQuery(searchInput, { staleTime: 30_000 });
-  const results = data?.results ?? [];
+  const data = useMemo(() => searchRecipes(committedQuery, committedPantry, filters), [committedQuery, committedPantry, filters]);
+  const isFetching = false;
+  const results = data.results;
   const selected = results.find((recipe) => recipe.id === selectedId);
 
   const runSearch = () => {

@@ -10,13 +10,8 @@
 
 ไฟล์ `netlify.toml` ตั้งค่าเหล่านี้ไว้ให้แล้ว หากเชื่อมจาก Git repository สามารถใช้ค่าเริ่มต้นจากไฟล์ได้เลย
 
-## ข้อจำกัดของ Netlify static hosting
+## หมายเหตุ
 
-โปรเจกต์นี้เป็น full-stack React + Express + tRPC โดยระบบค้นหาสูตรทำงานผ่าน backend ที่ `/api/trpc` ดังนั้นการอัปโหลดเฉพาะ `dist/public` ไปยัง Netlify จะทำให้หน้าเว็บและ UI แสดงได้ แต่การค้นหา/เรียกสูตรผ่าน API อาจใช้งานไม่ได้บน static hosting โดยตรง
+เวอร์ชันนี้ย้ายระบบค้นหาสูตรมาใช้ `server/recipeSearch.ts` ฝั่ง client โดยตรง ทำให้หน้าเว็บ static บน Netlify แสดงสูตรและค้นหาเมนูได้โดยไม่ต้องมี Express backend หรือ `/api/trpc`
 
-หากต้องการให้ฟังก์ชันค้นหาทำงานครบ มี 2 ทางเลือก:
-
-- Deploy backend Node/Express แยกบนบริการที่รองรับ Node server แล้วตั้งค่า API URL ให้ frontend
-- แปลงระบบค้นหาเป็น Netlify Functions หรือ client-side search ก่อน deploy
-
-สำหรับการนำเสนอ UI ให้ใช้ไฟล์ build ที่ Netlify สร้างจาก `netlify.toml` ได้ทันที
+โฟลเดอร์ `server/` ยังเก็บ implementation ของ tRPC backend และ Information Retrieval ไว้สำหรับการพัฒนาต่อหรือ deploy แบบ full-stack ในอนาคต
